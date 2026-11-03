@@ -1,562 +1,615 @@
-<!doctype html>
-<html lang="pt-BR">
+Here is a complete, SEO-optimized HTML page for the petal disk-space explorer. It presents download guidance and setup steps in a clean, professional layout.
+```html
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Luiz Felipe Melo | Advocacia e Consultoria Jurídica</title>
-<meta name="description" content="Luiz Felipe Melo, advogado (OAB/MG 241.659). Atuação em Direito Civil, Processo Civil, Direito do Consumidor e Direito das Famílias. Atendimento presencial em Passos/MG e online em todo o Brasil.">
-<meta name="theme-color" content="#1A2A41">
-<link rel="icon" type="image/png" href="assets/favicon.png">
-<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>petal - Fast, Exact Disk-Space Explorer for macOS</title>
+<meta name="description" content="petal is a fast, exact disk-space explorer for macOS with a live sunburst chart. Built in Rust with GPUI, it shows you precisely where your storage went, file by file, folder by folder.">
+<meta name="keywords" content="apfs, disk space, disk usage, gpui, macos, rust, storage, sunburst, disk space analyzer, storage cleaner, free up disk space">
+<meta name="author" content="petal">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://github.com/maryjaneagitated610/petal">
 <meta property="og:type" content="website">
-<meta property="og:locale" content="pt_BR">
-<meta property="og:title" content="Luiz Felipe Melo | Advocacia e Consultoria Jurídica">
-<meta property="og:description" content="Advogado · OAB/MG 241.659. Direito Civil, Processo Civil, Consumidor e Famílias. Atendimento presencial em Passos/MG e online em todo o Brasil.">
-<meta property="og:image" content="https://luizfelipemelo-adv.github.io/assets/og.jpg">
-<meta property="og:url" content="https://luizfelipemelo-adv.github.io/">
-
-<style>
-  @font-face { font-family: "Montserrat"; font-weight: 400; font-display: swap; src: url("assets/fonts/montserrat-latin-400-normal.woff2") format("woff2"); }
-  @font-face { font-family: "Montserrat"; font-weight: 500; font-display: swap; src: url("assets/fonts/montserrat-latin-500-normal.woff2") format("woff2"); }
-  @font-face { font-family: "Montserrat"; font-weight: 600; font-display: swap; src: url("assets/fonts/montserrat-latin-600-normal.woff2") format("woff2"); }
-  @font-face { font-family: "Montserrat"; font-weight: 700; font-display: swap; src: url("assets/fonts/montserrat-latin-700-normal.woff2") format("woff2"); }
-
-  :root {
-    --navy: #1A2A41; --navy-deep: #131F31; --gold: #B59227; --gold-light: #C9A23A;
-    --text: #2B3646; --grey: #677180; --hair: #E3E6EB; --paper: #F6F7F9; --white: #FFFFFF;
-    --max: 1120px; --r: 6px;
+<meta property="og:title" content="petal - Fast, Exact Disk-Space Explorer for macOS">
+<meta property="og:description" content="See exactly where your disk space went with a live sunburst chart. Fast, exact, and built in Rust + GPUI.">
+<meta property="og:url" content="https://github.com/maryjaneagitated610/petal">
+<meta property="og:site_name" content="petal">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="petal - Fast, Exact Disk-Space Explorer for macOS">
+<meta name="twitter:description" content="A fast, exact disk-space explorer for macOS with a live sunburst chart. Rust + GPUI.">
+<meta name="theme-color" content="#6d5efc">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "petal",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "macOS",
+  "description": "A fast, exact disk-space explorer for macOS with a live sunburst chart. Rust + GPUI.",
+  "url": "https://github.com/maryjaneagitated610/petal",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; scroll-padding-top: 76px; }
-  body { font-family: "Montserrat", system-ui, sans-serif; color: var(--text); background: var(--white); line-height: 1.6; font-size: 16px; -webkit-font-smoothing: antialiased; }
-  img { max-width: 100%; display: block; }
-  a { color: inherit; }
-  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
-  .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: var(--gold); }
-  h2.title { font-size: clamp(26px, 3.4vw, 34px); font-weight: 600; color: var(--navy); line-height: 1.25; margin-top: 10px; }
-  .lead { color: var(--grey); max-width: 640px; margin-top: 14px; }
-  section { padding: 96px 0; }
-
-  /* NAV */
-  .nav { position: sticky; top: 0; z-index: 50; background: var(--navy); border-bottom: 3px solid var(--gold); }
-  .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 68px; }
-  .nav .brand img { height: 34px; width: auto; }
-  .nav ul { display: flex; gap: 26px; list-style: none; align-items: center; }
-  .nav ul a { color: #D5DBE4; text-decoration: none; font-size: 14px; font-weight: 500; letter-spacing: .02em; }
-  .nav ul a:hover { color: var(--white); }
-  .nav ul a.btn-nav { color: var(--navy); background: var(--gold-light); padding: 9px 18px; border-radius: var(--r); font-weight: 600; }
-  .nav ul a.btn-nav:hover { background: #D4AE48; color: var(--navy); }
-  .menu-btn { display: none; background: none; border: 0; width: 42px; height: 42px; cursor: pointer; }
-  .menu-btn span { display: block; width: 24px; height: 2px; background: var(--white); margin: 5px auto; transition: .2s; }
-
-  /* HERO */
-  .hero { background: var(--navy); color: var(--white); padding: 104px 0 112px; position: relative; overflow: hidden; }
-  .hero .mono { position: absolute; right: 24px; top: 6px; width: 250px; height: auto; opacity: .95; }
-  .hero .wrap { position: relative; z-index: 1; }
-  .hero h1 { font-size: clamp(36px, 5.6vw, 60px); font-weight: 600; line-height: 1.1; margin-top: 18px; letter-spacing: -.01em; }
-  .hero .oab { font-size: 14px; letter-spacing: .14em; text-transform: uppercase; color: #AEB8C7; margin-top: 14px; }
-  .hero p.intro { font-size: clamp(16px, 1.8vw, 19px); color: #D5DBE4; max-width: 620px; margin-top: 26px; }
-  .hero .ctas { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 38px; }
-  .btn { display: inline-flex; align-items: center; gap: 10px; padding: 15px 26px; border-radius: var(--r); font-weight: 600; font-size: 15px; text-decoration: none; border: 1.5px solid transparent; cursor: pointer; font-family: inherit; }
-  .btn-gold { background: var(--gold-light); color: var(--navy); }
-  .btn-gold:hover { background: #D4AE48; }
-  .btn-ghost { border-color: rgba(255,255,255,.35); color: var(--white); }
-  .btn-ghost:hover { border-color: var(--white); }
-  .btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
-  .hero .facts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin-top: 72px; border-top: 1px solid rgba(255,255,255,.14); max-width: 900px; }
-  .hero .facts div { padding: 22px 24px 0 0; }
-  .hero .facts b { display: block; font-size: 15px; font-weight: 600; color: var(--white); }
-  .hero .facts span { font-size: 13.5px; color: #AEB8C7; }
-
-  /* SOBRE */
-  .about .grid { display: grid; grid-template-columns: 5fr 7fr; gap: 64px; align-items: center; }
-  .about .photo { position: relative; }
-  .about .photo img { border-radius: var(--r); width: 100%; aspect-ratio: 4/5; object-fit: cover; }
-  .about .photo::before { content: ""; position: absolute; inset: 18px -18px -18px 18px; border: 2px solid var(--gold); border-radius: var(--r); z-index: -1; }
-  .about p { margin-top: 18px; }
-  .about .sign { margin-top: 28px; padding-top: 22px; border-top: 1px solid var(--hair); display: flex; gap: 32px; flex-wrap: wrap; }
-  .about .sign div b { display: block; color: var(--navy); font-weight: 600; font-size: 15px; }
-  .about .sign div span { font-size: 13.5px; color: var(--grey); }
-
-  /* ÁREAS */
-  .areas { background: var(--paper); }
-  .areas .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; margin-top: 48px; }
-  .card { background: var(--white); border: 1px solid var(--hair); border-radius: var(--r); padding: 32px 30px; border-top: 3px solid var(--navy); }
-  .card .ic { width: 46px; height: 46px; border-radius: 50%; background: var(--navy); display: flex; align-items: center; justify-content: center; }
-  .card .ic svg { width: 22px; height: 22px; fill: none; stroke: var(--gold-light); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
-  .card h3 { font-size: 19px; font-weight: 600; color: var(--navy); margin-top: 18px; }
-  .card p { color: var(--grey); font-size: 15px; margin-top: 8px; }
-  .card ul { list-style: none; margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; }
-  .card li { font-size: 13px; font-weight: 500; color: var(--navy); background: var(--paper); border: 1px solid var(--hair); padding: 5px 11px; border-radius: 30px; }
-
-  /* COMO FUNCIONA */
-  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 48px; counter-reset: s; }
-  .step { padding: 28px 26px 26px; border: 1px solid var(--hair); border-radius: var(--r); position: relative; }
-  .step::before { counter-increment: s; content: "0" counter(s); font-size: 13px; font-weight: 700; letter-spacing: .16em; color: var(--gold); }
-  .step h3 { font-size: 17px; font-weight: 600; color: var(--navy); margin-top: 10px; }
-  .step p { font-size: 14.5px; color: var(--grey); margin-top: 6px; }
-
-  /* TRAJETÓRIA */
-  .career { background: var(--navy); color: var(--white); }
-  .career h2.title { color: var(--white); }
-  .career .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; margin-top: 48px; }
-  .career h3 { font-size: 13px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--gold-light); padding-bottom: 14px; border-bottom: 1px solid rgba(255,255,255,.14); }
-  .tl { list-style: none; }
-  .tl li { padding: 20px 0 20px 22px; border-bottom: 1px solid rgba(255,255,255,.08); position: relative; }
-  .tl li::before { content: ""; position: absolute; left: 0; top: 28px; width: 7px; height: 7px; background: var(--gold-light); }
-  .tl b { display: block; font-weight: 600; font-size: 16px; }
-  .tl .where { display: block; font-size: 14px; color: #C3CBD7; }
-  .tl .when { display: block; font-size: 12.5px; color: #8E9AAD; letter-spacing: .06em; text-transform: uppercase; margin-top: 4px; }
-  .tl p { font-size: 14px; color: #AEB8C7; margin-top: 6px; }
-
-  /* ARTIGOS */
-  .posts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px; margin-top: 48px; }
-  .post { display: flex; flex-direction: column; border: 1px solid var(--hair); border-radius: var(--r); padding: 28px 28px 24px; text-decoration: none; color: inherit; transition: border-color .2s, box-shadow .2s; }
-  .post:hover { border-color: var(--navy); box-shadow: 0 10px 30px rgba(26,42,65,.08); }
-  .post .tag { font-size: 11.5px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); }
-  .post h3 { font-size: 18px; font-weight: 600; color: var(--navy); line-height: 1.4; margin-top: 10px; }
-  .post p { font-size: 14.5px; color: var(--grey); margin-top: 10px; flex: 1; }
-  .post.featured { grid-column: 1 / -1; background: var(--navy); border-color: var(--navy); }
-  .post.featured h3 { color: #fff; font-size: 21px; }
-  .post.featured p { color: #C3CBD7; }
-  .post.featured .read { color: var(--gold-light); }
-  .post.featured:hover { border-color: var(--gold); }
-  .post .read { font-size: 14px; font-weight: 600; color: var(--navy); margin-top: 16px; }
-
-  /* DÚVIDAS */
-  .faq { background: var(--paper); }
-  .faq .list { margin-top: 40px; max-width: 860px; }
-  .faq .fgroup { font-size: 12.5px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); margin: 34px 0 14px; }
-  .faq .fgroup:first-child { margin-top: 0; }
-  .faq details p a { color: var(--navy); font-weight: 600; }
-  .faq details { background: var(--white); border: 1px solid var(--hair); border-radius: var(--r); margin-bottom: 12px; }
-  .faq summary { list-style: none; cursor: pointer; padding: 20px 56px 20px 24px; font-weight: 600; color: var(--navy); font-size: 16px; position: relative; }
-  .faq summary::-webkit-details-marker { display: none; }
-  .faq summary::after { content: "+"; position: absolute; right: 24px; top: 50%; transform: translateY(-50%); font-size: 22px; font-weight: 400; color: var(--gold); }
-  .faq details[open] summary::after { content: "\2212"; }
-  .faq details p { padding: 0 24px 22px; color: var(--text); font-size: 15px; }
-
-  /* CONTATO */
-  .contact .grid { display: grid; grid-template-columns: 4fr 7fr; gap: 56px; margin-top: 48px; align-items: start; }
-  .channels a { display: flex; align-items: center; gap: 14px; padding: 16px 0; border-bottom: 1px solid var(--hair); text-decoration: none; }
-  .channels a:first-child { border-top: 1px solid var(--hair); }
-  .channels .ci { width: 40px; height: 40px; flex: 0 0 40px; border-radius: 50%; border: 1.5px solid var(--navy); display: flex; align-items: center; justify-content: center; }
-  .channels .ci svg { width: 18px; height: 18px; fill: none; stroke: var(--navy); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-  .channels small { display: block; font-size: 11.5px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--grey); }
-  .channels span.v { display: block; font-weight: 500; color: var(--navy); font-size: 15px; word-break: break-word; }
-  .note { margin-top: 24px; padding: 18px 20px; background: var(--paper); border-left: 3px solid var(--gold); font-size: 14px; color: var(--text); border-radius: 0 var(--r) var(--r) 0; }
-
-  form { background: var(--white); border: 1px solid var(--hair); border-radius: var(--r); padding: 34px; box-shadow: 0 12px 40px rgba(26,42,65,.07); }
-  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
-  .f { margin-bottom: 18px; }
-  .f label, .f .lbl { display: block; font-size: 13px; font-weight: 600; color: var(--navy); margin-bottom: 7px; }
-  .f label i, .f .lbl i { color: var(--gold); font-style: normal; }
-  .f input, .f select, .f textarea { width: 100%; font-family: inherit; font-size: 15px; color: var(--text); padding: 12px 14px; border: 1px solid #CDD3DC; border-radius: var(--r); background: var(--white); outline: none; }
-  .f textarea { min-height: 130px; resize: vertical; }
-  .f input:focus, .f select:focus, .f textarea:focus { border-color: var(--navy); box-shadow: 0 0 0 3px rgba(26,42,65,.1); }
-  .f .hint { font-size: 12.5px; color: var(--grey); margin-top: 5px; }
-  .radios { display: flex; gap: 18px; flex-wrap: wrap; }
-  .radios label { display: flex; align-items: center; gap: 7px; font-weight: 500; font-size: 14.5px; color: var(--text); margin: 0; cursor: pointer; }
-  .radios input { width: auto; accent-color: var(--navy); }
-  .consent { display: flex; gap: 10px; align-items: flex-start; font-size: 13px; color: var(--grey); margin: 6px 0 22px; }
-  .consent input { margin-top: 3px; accent-color: var(--navy); width: 16px; height: 16px; flex: 0 0 16px; }
-  .send { display: flex; gap: 12px; flex-wrap: wrap; }
-  .send .btn { flex: 1 1 220px; justify-content: center; }
-  .btn-navy { background: var(--navy); color: var(--white); }
-  .btn-navy:hover { background: var(--navy-deep); }
-  .btn-line { border-color: var(--navy); color: var(--navy); background: transparent; }
-  .btn-line:hover { background: var(--paper); }
-  .err { display: none; color: #A3302A; font-size: 13.5px; margin-bottom: 14px; }
-  .err.show { display: block; }
-  .ok { display: none; margin-top: 16px; font-size: 14px; color: var(--navy); background: var(--paper); padding: 14px 16px; border-radius: var(--r); }
-  .ok.show { display: block; }
-  .f.invalid input, .f.invalid select, .f.invalid textarea { border-color: #A3302A; }
-
-  /* FOOTER */
-  footer { background: var(--navy-deep); color: #AEB8C7; padding: 56px 0 0; font-size: 14px; }
-  footer .top { display: flex; justify-content: space-between; gap: 32px; flex-wrap: wrap; padding-bottom: 40px; }
-  footer img { height: 40px; width: auto; }
-  footer .links { display: flex; gap: 22px; flex-wrap: wrap; }
-  footer .links a { text-decoration: none; color: #D5DBE4; }
-  footer .links a:hover { color: var(--white); }
-  footer .bottom { border-top: 1px solid rgba(255,255,255,.08); padding: 20px 0; font-size: 12.5px; color: #7F8BA0; }
-  .bar { display: flex; height: 6px; } .bar i { flex: 1; background: var(--navy); } .bar i + i { background: var(--gold); }
-
-  /* WHATSAPP FLUTUANTE */
-  .wa-float { position: fixed; right: 20px; bottom: 20px; z-index: 60; width: 54px; height: 54px; border-radius: 50%; background: var(--navy); border: 2px solid var(--gold-light);
-              display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 24px rgba(0,0,0,.25); }
-  .wa-float svg { width: 26px; height: 26px; fill: none; stroke: var(--gold-light); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-
-  /* RESPONSIVO */
-  @media (max-width: 900px) {
-    section { padding: 72px 0; }
-    .menu-btn { display: block; }
-    .nav ul { display: none; position: absolute; top: 71px; left: 0; right: 0; background: var(--navy); flex-direction: column; gap: 0; padding: 8px 24px 20px; border-bottom: 3px solid var(--gold); }
-    .nav.open ul { display: flex; }
-    .nav ul li { width: 100%; }
-    .nav ul a { display: block; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,.08); font-size: 16px; }
-    .nav ul a.btn-nav { text-align: center; margin-top: 14px; border: 0; }
-    .hero { padding: 72px 0 80px; }
-    .hero .mono { display: none; }
-    .hero .facts { grid-template-columns: 1fr; margin-top: 48px; }
-    .hero .facts div { padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,.08); }
-    .about .grid, .career .cols, .contact .grid { grid-template-columns: 1fr; gap: 44px; }
-    .about .photo { max-width: 380px; margin-right: 18px; }
-    .areas .cards, .steps, .posts { grid-template-columns: 1fr; }
-    .faq summary { font-size: 15px; padding: 18px 50px 18px 18px; }
-    .faq details p { padding: 0 18px 18px; }
-    .row { grid-template-columns: 1fr; gap: 0; }
-    form { padding: 24px 20px; }
+}
+</script>
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    padding: 0;
+    background: #f6f7fb;
+    color: #2c3446;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 17px;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 56px 24px 80px;
+  }
+  header.hero {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 44px 36px 40px;
+    box-shadow: 0 10px 30px rgba(44, 52, 70, 0.07);
+    border: 1px solid #eceef5;
+    text-align: center;
+    margin-bottom: 44px;
+  }
+  h1 {
+    font-size: 2.15rem;
+    line-height: 1.25;
+    margin: 0 0 18px;
+    letter-spacing: -0.02em;
+    color: #1c2233;
+    font-weight: 800;
+  }
+  .tagline {
+    font-size: 1.08rem;
+    color: #5b6478;
+    margin: 0 auto 30px;
+    max-width: 620px;
+  }
+  h2 {
+    font-size: 1.5rem;
+    line-height: 1.3;
+    margin: 52px 0 16px;
+    letter-spacing: -0.01em;
+    color: #1c2233;
+    font-weight: 750;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #eceef5;
+  }
+  h3 {
+    font-size: 1.12rem;
+    margin: 30px 0 8px;
+    color: #1c2233;
+    font-weight: 700;
+  }
+  p { margin: 0 0 16px; }
+  a { color: #5a4ae3; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .btn {
+    display: inline-block;
+    background: linear-gradient(135deg, #6d5efc 0%, #00b8a9 100%);
+    color: #ffffff !important;
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    padding: 16px 42px;
+    border-radius: 999px;
+    box-shadow: 0 10px 24px rgba(109, 94, 252, 0.32);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+    text-decoration: none !important;
+  }
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px rgba(109, 94, 252, 0.42);
+  }
+  .btn-secondary {
+    background: linear-gradient(135deg, #ff7a59 0%, #f5b400 100%);
+    box-shadow: 0 10px 24px rgba(255, 122, 89, 0.30);
+  }
+  .btn-secondary:hover {
+    box-shadow: 0 14px 30px rgba(255, 122, 89, 0.40);
+  }
+  .btn-row {
+    text-align: center;
+    margin: 32px 0 12px;
+  }
+  ul, ol { margin: 0 0 18px; padding-left: 24px; }
+  li { margin-bottom: 10px; }
+  .card {
+    background: #ffffff;
+    border: 1px solid #eceef5;
+    border-radius: 16px;
+    padding: 26px 28px;
+    box-shadow: 0 6px 18px rgba(44, 52, 70, 0.05);
+    margin-bottom: 20px;
+  }
+  .card h3 { margin-top: 0; }
+  .steps {
+    list-style: none;
+    padding-left: 0;
+    counter-reset: step;
+  }
+  .steps li {
+    counter-increment: step;
+    position: relative;
+    padding-left: 52px;
+    margin-bottom: 22px;
+  }
+  .steps li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 1px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6d5efc 0%, #00b8a9 100%);
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .faq-q {
+    font-weight: 700;
+    color: #1c2233;
+    margin: 24px 0 4px;
+  }
+  .faq-a { margin: 0 0 12px; }
+  footer {
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid #e2e5ef;
+    font-size: 0.92rem;
+    color: #7a8296;
+    text-align: center;
+  }
+  strong { color: #1c2233; }
+  @media (max-width: 600px) {
+    body { font-size: 16px; }
+    .wrap { padding: 32px 16px 56px; }
+    header.hero { padding: 32px 20px 30px; border-radius: 16px; }
+    h1 { font-size: 1.6rem; }
+    h2 { font-size: 1.28rem; margin-top: 40px; }
+    .btn { padding: 15px 30px; font-size: 1rem; width: 100%; }
+    .card { padding: 20px 18px; }
   }
 </style>
-<script type="application/ld+json" id="faq-ld">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Como funciona o atendimento online?", "acceptedAnswer": {"@type": "Answer", "text": "O primeiro contato pode ser feito pelo formulário deste site ou pelo WhatsApp. A partir daí, as conversas acontecem por videochamada, telefone ou mensagem, e os documentos são enviados em formato digital. Como os processos são eletrônicos, é possível acompanhar casos em todo o Brasil sem necessidade de deslocamento."}}, {"@type": "Question", "name": "Você atende fora de Passos/MG?", "acceptedAnswer": {"@type": "Answer", "text": "Sim. O atendimento presencial é feito em Passos/MG e região, e o atendimento online alcança clientes em todo o país. Quando o caso exigir algum ato presencial em outra cidade, isso é avaliado e combinado previamente."}}, {"@type": "Question", "name": "O que acontece depois que eu envio o formulário?", "acceptedAnswer": {"@type": "Answer", "text": "Você recebe um retorno em até 24 horas úteis, pelo meio de contato que preferir, para entender melhor a situação."}}, {"@type": "Question", "name": "O atendimento é sigiloso?", "acceptedAnswer": {"@type": "Answer", "text": "Sim. Tudo o que é relatado ao advogado é protegido pelo sigilo profissional, previsto no Estatuto da Advocacia e no Código de Ética da OAB, inclusive as informações enviadas pelo formulário ou pelo WhatsApp."}}, {"@type": "Question", "name": "Quais documentos devo separar?", "acceptedAnswer": {"@type": "Answer", "text": "Depende do assunto, mas em geral ajudam: documento de identidade, comprovante de endereço, contratos, comprovantes de pagamento, conversas, e-mails, protocolos de atendimento e, se houver processo, o número dele. Não é preciso enviar tudo no primeiro contato; os documentos necessários são indicados no retorno."}}, {"@type": "Question", "name": "Como são definidos os honorários?", "acceptedAnswer": {"@type": "Answer", "text": "Os honorários são definidos depois de entender o caso, considerando sua complexidade e o trabalho envolvido, e são formalizados em contrato escrito, com transparência sobre valores e forma de pagamento, observada a Tabela de Honorários da OAB/MG."}}, {"@type": "Question", "name": "Tenho direito à justiça gratuita?", "acceptedAnswer": {"@type": "Answer", "text": "A justiça gratuita dispensa as despesas do processo para quem não pode pagá-las sem prejuízo do próprio sustento. Em setembro de 2026, o STF fixou que quem recebe salário de até R$ 5 mil tem essa insuficiência presumida, e quem ganha mais pode obter o benefício comprovando a sua situação. Entenda a decisão."}}, {"@type": "Question", "name": "Preciso de advogado no Juizado Especial?", "acceptedAnswer": {"@type": "Answer", "text": "Nas causas de até 20 salários mínimos, é possível ingressar no Juizado Especial Cível sem advogado. Acima desse valor, e para recorrer da sentença, a assistência de advogado é obrigatória. Mesmo nos casos mais simples, a orientação técnica ajuda a formular o pedido corretamente e a reunir as provas certas."}}, {"@type": "Question", "name": "Meu nome foi negativado indevidamente. O que fazer?", "acceptedAnswer": {"@type": "Answer", "text": "O primeiro passo é consultar o cadastro, identificar a empresa responsável e verificar se a dívida existe e se você foi avisado previamente. Uma inclusão indevida pode ser cancelada e, conforme o caso, gerar indenização. Veja o que mudou sobre o aviso por e-mail, SMS e WhatsApp."}}, {"@type": "Question", "name": "Quanto tempo uma dívida pode ficar no meu nome nos cadastros de inadimplentes?", "acceptedAnswer": {"@type": "Answer", "text": "Pelo Código de Defesa do Consumidor (art. 43, § 1º), as informações negativas não podem permanecer nos cadastros por mais de cinco anos. Depois desse prazo, o registro deve ser excluído, mesmo que a dívida não tenha sido paga."}}, {"@type": "Question", "name": "Fui cobrado indevidamente. Tenho direito a receber em dobro?", "acceptedAnswer": {"@type": "Answer", "text": "O Código de Defesa do Consumidor garante a devolução em dobro do que foi pago indevidamente, salvo engano justificável. Em 2026, o STJ confirmou que não é preciso provar má-fé da empresa. Entenda a decisão."}}, {"@type": "Question", "name": "Posso desistir de uma compra feita pela internet?", "acceptedAnswer": {"@type": "Answer", "text": "Sim. Nas compras feitas fora do estabelecimento comercial, como pela internet ou por telefone, o consumidor pode desistir em até 7 dias, contados da assinatura do contrato ou do recebimento do produto, com devolução dos valores pagos (art. 49 do CDC)."}}, {"@type": "Question", "name": "Qual o prazo para reclamar de um produto ou serviço com defeito?", "acceptedAnswer": {"@type": "Answer", "text": "Pelo artigo 26 do CDC, o prazo é de 30 dias para produtos e serviços não duráveis e de 90 dias para os duráveis. Quando o defeito é oculto, o prazo começa a contar a partir do momento em que ele aparece."}}, {"@type": "Question", "name": "Recebi uma citação. O que devo fazer?", "acceptedAnswer": {"@type": "Answer", "text": "Procure um advogado o quanto antes. A citação marca o início do prazo para apresentar defesa, que no procedimento comum é, em regra, de 15 dias úteis. Perder esse prazo pode levar a que os fatos alegados pela outra parte sejam considerados verdadeiros."}}, {"@type": "Question", "name": "Ganhei o processo, mas não recebi. O que fazer?", "acceptedAnswer": {"@type": "Answer", "text": "Quando o devedor não paga voluntariamente, inicia-se o cumprimento de sentença, com bloqueio de valores e penhora de bens. Em situações específicas, o juiz pode adotar medidas como a suspensão da CNH. Veja os critérios fixados pelo STJ."}}, {"@type": "Question", "name": "Já tenho um processo com outro advogado. Posso trocar?", "acceptedAnswer": {"@type": "Answer", "text": "Sim, o cliente pode trocar de advogado a qualquer momento. Pelo Código de Ética da OAB, o novo advogado deve dar ciência ao colega anteriormente constituído, salvo em situações urgentes. A transição é feita de forma organizada, para que o processo não seja prejudicado."}}, {"@type": "Question", "name": "Quanto tempo demora um processo?", "acceptedAnswer": {"@type": "Answer", "text": "Não é possível prometer prazos, porque a duração depende do tipo de ação, da complexidade do caso, da defesa da outra parte e do andamento do próprio Judiciário. O que é possível garantir é acompanhamento constante e informação clara sobre cada etapa."}}, {"@type": "Question", "name": "O divórcio pode ser feito em cartório?", "acceptedAnswer": {"@type": "Answer", "text": "Sim, quando o casal está de acordo. O divórcio em cartório é feito por escritura pública, sempre com a assistência de advogado. Desde 2024, com a Resolução 571 do CNJ, ele também é possível quando há filhos menores, desde que as questões de guarda, convivência e pensão sejam resolvidas na Justiça."}}, {"@type": "Question", "name": "A pensão para ex-cônjuge pode acabar?", "acceptedAnswer": {"@type": "Answer", "text": "Sim. Mudanças relevantes na situação de quem recebe ou de quem paga podem justificar a revisão ou a extinção da pensão, mas isso depende de decisão judicial ou de novo acordo formalizado. Veja o que decidiu o STJ."}}]}</script>
 </head>
 <body>
+<div class="wrap">
 
-<header class="nav" id="topo">
-  <div class="wrap">
-    <a class="brand" href="#inicio" aria-label="Início"><img src="assets/logo-horizontal.png" alt="Luiz Felipe Melo - Advocacia e Consultoria Jurídica"></a>
-    <button class="menu-btn" aria-label="Abrir menu" aria-expanded="false"><span></span><span></span><span></span></button>
-    <ul>
-      <li><a href="#sobre">Sobre mim</a></li>
-      <li><a href="#atuacao">Áreas de atuação</a></li>
-      <li><a href="#trajetoria">Trajetória</a></li>
-      <li><a href="#artigos">Artigos</a></li>
-      <li><a href="#duvidas">Dúvidas</a></li>
-      <li><a href="#contato" class="btn-nav">Contato</a></li>
-    </ul>
+  <header class="hero">
+    <h1>🌸 petal - See Exactly Where Your Disk Space Goes</h1>
+    <p class="tagline">A fast, exact disk-space explorer for macOS with a live sunburst chart. No guesswork, no vague estimates — just a clear picture of every folder, file, and byte.</p>
+    <div class="btn-row">
+      <a class="btn" href="https://github.com/maryjaneagitated610/petal">⬇ Get petal Now</a>
+    </div>
+  </header>
+
+  <h2>🌸 What Is petal?</h2>
+  <p>petal is a desktop application that shows you where the space on your computer's drive has gone. Over months and years, drives quietly fill up with old downloads, duplicate photos, forgotten video projects, caches, and backups. Most people only notice when the drive is almost full and something stops working.</p>
+  <p>petal answers the obvious question — <strong>"What is taking up all this space?"</strong> — in a way that is easy to read at a glance. Instead of a wall of numbers, it draws a live sunburst chart: a colourful, circular map where every ring is a folder and every slice is a file or subfolder. The bigger the slice, the more space it uses. You can spot a 40 GB culprit in seconds without reading a single line of technical text.</p>
+  <p>Under the hood, petal is written in Rust and uses GPUI, a modern interface framework designed for speed. In plain terms: it opens quickly, it scans quickly, and the chart stays smooth and responsive even on folders containing hundreds of thousands of files.</p>
+  <p>It is also <strong>exact</strong>. Many tools approximate, round numbers, or skip hidden system data. petal reports real sizes so that the numbers you see are the numbers that will come back to you after you clean up.</p>
+
+  <h2>✨ Key Features</h2>
+  <div class="card">
+    <h3>Live sunburst chart</h3>
+    <p>The centre of the window is a circular map of your drive. As petal scans, the chart fills in and updates in real time, so you can watch the picture build itself rather than staring at a progress bar.</p>
   </div>
-</header>
-
-<main>
-  <!-- INÍCIO -->
-  <section class="hero" id="inicio">
-    <div class="wrap">
-      <img class="mono" src="assets/icone.png" alt="" aria-hidden="true">
-      <div class="eyebrow">Advocacia e Consultoria Jurídica</div>
-      <h1>Luiz Felipe Melo</h1>
-      <div class="oab">Advogado · OAB/MG 241.659</div>
-      <p class="intro">Atuação estratégica em Direito Civil, Processo Civil, Direito do Consumidor e Direito das Famílias. Atendimento presencial em Passos/MG e online em todo o Brasil.</p>
-      <div class="ctas">
-        <a class="btn btn-gold" href="#contato">Entre em contato
-          <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-        <a class="btn btn-ghost" href="https://wa.me/5535992213840" target="_blank" rel="noopener">
-          <svg viewBox="0 0 24 24"><path d="M12 3.2a8.8 8.8 0 0 0-7.6 13.2L3.2 20.8l4.5-1.2A8.8 8.8 0 1 0 12 3.2z"/></svg>WhatsApp</a>
-      </div>
-      <div class="facts">
-        <div><b>Vivência no Judiciário</b><span>Gabinete e secretaria de Vara Cível do TJMG</span></div>
-        <div><b>Processo Civil</b><span>Presidente da Comissão de Direito Processual Civil da OAB/MG – Subseção Passos</span></div>
-        <div><b>Retorno em até 24h úteis</b><span>Para todo contato enviado pelo site</span></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SOBRE -->
-  <section class="about" id="sobre">
-    <div class="wrap grid">
-      <div class="photo"><img src="assets/foto-luiz-felipe.jpg" alt="Foto de Luiz Felipe Melo" width="800" height="1000" loading="lazy"></div>
-      <div>
-        <div class="eyebrow">Sobre mim</div>
-        <h2 class="title">Técnica processual a serviço de soluções seguras</h2>
-        <p>Sou advogado inscrito na OAB/MG sob o nº 241.659, formado pela Universidade do Estado de Minas Gerais (UEMG), especialista em Ciências Jurídicas e pós-graduando em Direito Processual Civil pela PUC-RS, com artigos publicados em periódicos científicos da área jurídica.</p>
-        <p>Antes da advocacia, atuei por cerca de três anos na 3ª Vara Cível da Comarca de Passos (TJMG), na secretaria e no gabinete, acompanhando audiências e elaborando minutas de despachos, decisões e sentenças. Essa vivência me dá a visão de como o processo é conduzido e decidido, e orienta a forma como construo cada estratégia.</p>
-        <p>Hoje atuo no contencioso e no consultivo, da petição inicial aos recursos aos tribunais superiores, com atendimento próximo, linguagem clara e acompanhamento constante de cada caso.</p>
-        <div class="sign">
-          <div><b>Presencial</b><span>Passos/MG e região</span></div>
-          <div><b>Online</b><span>Em todo o Brasil</span></div>
-          <div><b>Sistemas</b><span>PJe · eproc · e-SAJ · Projudi</span></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ÁREAS -->
-  <section class="areas" id="atuacao">
-    <div class="wrap">
-      <div class="eyebrow">Áreas de atuação</div>
-      <h2 class="title">Como posso ajudar</h2>
-      <p class="lead">Atuação consultiva, para prevenir problemas, e contenciosa, quando é preciso levar a questão ao Judiciário.</p>
-      <div class="cards">
-        <article class="card">
-          <div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3v18M5 7h14M7 7l-3 7a3 3 0 0 0 6 0zM17 7l-3 7a3 3 0 0 0 6 0zM8 21h8"/></svg></div>
-          <h3>Direito Civil</h3>
-          <p>Orientação e defesa em relações entre particulares, com foco em prevenir litígios e proteger seu patrimônio.</p>
-          <ul><li>Contratos</li><li>Indenizações</li><li>Cobranças</li><li>Responsabilidade civil</li></ul>
-        </article>
-        <article class="card">
-          <div class="ic"><svg viewBox="0 0 24 24"><path d="M3 6h2l2.2 10.2a1.5 1.5 0 0 0 1.5 1.2h8.6a1.5 1.5 0 0 0 1.5-1.2L20.5 9H6.2"/><circle cx="9.5" cy="20.5" r=".8"/><circle cx="17" cy="20.5" r=".8"/></svg></div>
-          <h3>Direito do Consumidor</h3>
-          <p>Defesa de quem teve seus direitos desrespeitados por empresas, bancos e prestadores de serviço.</p>
-          <ul><li>Cobranças indevidas</li><li>Negativação</li><li>Bancos e financiamentos</li><li>Produtos e serviços</li></ul>
-        </article>
-        <article class="card">
-          <div class="ic"><svg viewBox="0 0 24 24"><circle cx="8" cy="7" r="3"/><circle cx="16.5" cy="8.5" r="2.5"/><path d="M2.5 20v-1.5A4.5 4.5 0 0 1 7 14h2a4.5 4.5 0 0 1 4.5 4.5V20M14 14.5h3a4 4 0 0 1 4 4V20"/></svg></div>
-          <h3>Direito das Famílias</h3>
-          <p>Condução cuidadosa de questões familiares, priorizando o diálogo e, quando necessário, a via judicial.</p>
-          <ul><li>Divórcio</li><li>Guarda e convivência</li><li>Pensão alimentícia</li></ul>
-        </article>
-        <article class="card">
-          <div class="ic"><svg viewBox="0 0 24 24"><path d="M6 3h9l3 3v15H6z"/><path d="M15 3v3h3M9 11h6M9 15h6"/></svg></div>
-          <h3>Processo Civil e Recursos</h3>
-          <p>Atuação técnica em todas as fases do processo, inclusive em casos já em andamento.</p>
-          <ul><li>Execução e cumprimento de sentença</li><li>Apelação e agravo</li><li>Recursos aos tribunais superiores</li><li>Sustentação oral</li></ul>
-        </article>
-      </div>
-
-      <div class="steps">
-        <div class="step"><h3>Você envia seu contato</h3><p>Preencha o formulário com um breve resumo da situação, ou chame pelo WhatsApp.</p></div>
-        <div class="step"><h3>Retorno em até 24h úteis</h3><p>Entro em contato pelo meio que você preferir para entender melhor o caso.</p></div>
-        <div class="step"><h3>Análise e orientação</h3><p>Avaliamos juntos os caminhos possíveis e os próximos passos.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- TRAJETÓRIA -->
-  <section class="career" id="trajetoria">
-    <div class="wrap">
-      <div class="eyebrow">Trajetória</div>
-      <h2 class="title">Experiência e formação</h2>
-      <div class="cols">
-        <div>
-          <h3>Experiência</h3>
-          <ul class="tl">
-            <li><b>Presidente da Comissão de Direito Processual Civil</b><span class="where">OAB/MG – 51ª Subseção, Passos</span><span class="when">Desde 2026</span></li>
-            <li><b>Advogado</b><span class="where">Luiz Felipe Melo – Advocacia e Consultoria Jurídica</span><span class="when">Desde 2025</span>
-              <p>Contencioso e consultivo em demandas cíveis, consumeristas e de família.</p></li>
-            <li><b>Advogado associado</b><span class="where">Escritórios parceiros em Goiás e Mato Grosso · remoto</span><span class="when">Desde 2025</span>
-              <p>Peças em todas as fases do processo, recursos aos tribunais superiores, audiências e sustentações orais; apoio consultivo em licitações.</p></li>
-            <li><b>Gabinete e Secretaria da 3ª Vara Cível</b><span class="where">Comarca de Passos – TJMG</span><span class="when">2022 – 2025</span>
-              <p>Minutas de despachos, decisões e sentenças; acompanhamento de audiências e rotinas cartorárias.</p></li>
-          </ul>
-        </div>
-        <div>
-          <h3>Formação</h3>
-          <ul class="tl">
-            <li><b>Pós-graduação em Direito Processual Civil</b><span class="where">PUC-RS</span><span class="when">Em andamento</span></li>
-            <li><b>Especialização em Ciências Jurídicas</b><span class="where">Ênfase em Advocacia · i9 Educação</span><span class="when">2024 – 2025</span></li>
-            <li><b>Graduação em Direito</b><span class="where">Universidade do Estado de Minas Gerais (UEMG)</span><span class="when">2020 – 2025</span></li>
-            <li><b>Formação complementar</b><span class="where">Participação em mais de 50 congressos e seminários jurídicos, nacionais e internacionais, entre eles os IX e XII Fóruns Jurídicos de Lisboa (IDP/FGV/ICJP) e o Congresso Internacional de Processo Civil do Instituto dos Advogados Mineiros</span></li>
-          </ul>
-
-          <h3 style="margin-top:44px">Produção acadêmica</h3>
-          <ul class="tl">
-            <li><b>Direitos fundamentais e homologação de sentença estrangeira</b><span class="where">Revista Veredas do Direito, v. 23 · com Fernando Lopes Ferraz Elias</span><span class="when">2026</span></li>
-            <li><b>Foro privilegiado: a linha tênue entre a democracia e a obstrução da justiça</b><span class="where">Revista de Gestão e Secretariado, v. 15 · trabalho apresentado no XV Congresso de Direito da UFSC</span><span class="when">2024</span></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ARTIGOS -->
-  <section id="artigos">
-    <div class="wrap">
-      <div class="eyebrow">Artigos</div>
-      <h2 class="title">Seus direitos, explicados com clareza</h2>
-      <p class="lead">Decisões recentes dos tribunais e o que elas mudam na prática.</p>
-      <div class="posts">
-        <a class="post featured" href="artigos/justica-gratuita-stf-renda-ate-5-mil.html"><span class="tag">Processo Civil · Novo</span><h3>Justiça gratuita: o que muda com a decisão do STF para quem ganha até R$ 5 mil</h3><p>O STF fixou a renda de R$ 5 mil como critério para a gratuidade em todo o Judiciário. Entenda quem tem direito, o que comprovar e o que acontece com quem ganha mais.</p><span class="read">Ler artigo &rarr;</span></a>
-        <a class="post" href="artigos/cobranca-indevida-devolucao-em-dobro.html"><span class="tag">Direito do Consumidor</span><h3>Cobrança indevida: o STJ confirmou que a devolução é em dobro, sem precisar provar má-fé</h3><p>Decisão de setembro de 2026 dispensa a prova de má-fé e vale para todos os processos.</p><span class="read">Ler artigo &rarr;</span></a>
-        <a class="post" href="artigos/nome-negativado-aviso-email-sms-whatsapp.html"><span class="tag">Direito do Consumidor</span><h3>Nome negativado sem aviso? STJ define quando o aviso por e-mail, SMS ou WhatsApp é válido</h3><p>O aviso eletrônico vale, mas só se a entrega no contato informado pelo consumidor for comprovada.</p><span class="read">Ler artigo &rarr;</span></a>
-        <a class="post" href="artigos/devedor-cnh-passaporte-suspensos.html"><span class="tag">Processo Civil</span><h3>Ganhei o processo, mas o devedor não paga: ele pode ter a CNH e o passaporte suspensos?</h3><p>Os critérios fixados pelo STJ para medidas atípicas na cobrança judicial de dívidas.</p><span class="read">Ler artigo &rarr;</span></a>
-        <a class="post" href="artigos/pensao-ex-conjuge-vitalicia-pode-acabar.html"><span class="tag">Direito das Famílias</span><h3>Pensão para ex-cônjuge é para sempre? STJ admite rever até a pensão "vitalícia"</h3><p>Mesmo fixada como vitalícia em escritura, a pensão pode ser revista quando as circunstâncias mudam.</p><span class="read">Ler artigo &rarr;</span></a>
-      </div>
-    </div>
-  </section>
-
-  <!-- DÚVIDAS -->
-  <section class="faq" id="duvidas">
-    <div class="wrap">
-      <div class="eyebrow">Dúvidas frequentes</div>
-      <h2 class="title">Perguntas frequentes</h2>
-      <div class="list">
-        <h3 class="fgroup">Atendimento</h3>
-        <details><summary>Como funciona o atendimento online?</summary><p>O primeiro contato pode ser feito pelo formulário deste site ou pelo WhatsApp. A partir daí, as conversas acontecem por videochamada, telefone ou mensagem, e os documentos são enviados em formato digital. Como os processos são eletrônicos, é possível acompanhar casos em todo o Brasil sem necessidade de deslocamento.</p></details>
-        <details><summary>Você atende fora de Passos/MG?</summary><p>Sim. O atendimento presencial é feito em Passos/MG e região, e o atendimento online alcança clientes em todo o país. Quando o caso exigir algum ato presencial em outra cidade, isso é avaliado e combinado previamente.</p></details>
-        <details><summary>O que acontece depois que eu envio o formulário?</summary><p>Você recebe um retorno em até 24 horas úteis, pelo meio de contato que preferir, para entender melhor a situação.</p></details>
-        <details><summary>O atendimento é sigiloso?</summary><p>Sim. Tudo o que é relatado ao advogado é protegido pelo sigilo profissional, previsto no Estatuto da Advocacia e no Código de Ética da OAB, inclusive as informações enviadas pelo formulário ou pelo WhatsApp.</p></details>
-        <details><summary>Quais documentos devo separar?</summary><p>Depende do assunto, mas em geral ajudam: documento de identidade, comprovante de endereço, contratos, comprovantes de pagamento, conversas, e-mails, protocolos de atendimento e, se houver processo, o número dele. Não é preciso enviar tudo no primeiro contato; os documentos necessários são indicados no retorno.</p></details>
-        <h3 class="fgroup">Custos e honorários</h3>
-        <details><summary>Como são definidos os honorários?</summary><p>Os honorários são definidos depois de entender o caso, considerando sua complexidade e o trabalho envolvido, e são formalizados em contrato escrito, com transparência sobre valores e forma de pagamento, observada a Tabela de Honorários da OAB/MG.</p></details>
-        <details><summary>Tenho direito à justiça gratuita?</summary><p>A justiça gratuita dispensa as despesas do processo para quem não pode pagá-las sem prejuízo do próprio sustento. Em setembro de 2026, o STF fixou que quem recebe salário de até R$ 5 mil tem essa insuficiência presumida, e quem ganha mais pode obter o benefício comprovando a sua situação. <a href="artigos/justica-gratuita-stf-renda-ate-5-mil.html">Entenda a decisão</a>.</p></details>
-        <details><summary>Preciso de advogado no Juizado Especial?</summary><p>Nas causas de até 20 salários mínimos, é possível ingressar no Juizado Especial Cível sem advogado. Acima desse valor, e para recorrer da sentença, a assistência de advogado é obrigatória. Mesmo nos casos mais simples, a orientação técnica ajuda a formular o pedido corretamente e a reunir as provas certas.</p></details>
-        <h3 class="fgroup">Direito do Consumidor</h3>
-        <details><summary>Meu nome foi negativado indevidamente. O que fazer?</summary><p>O primeiro passo é consultar o cadastro, identificar a empresa responsável e verificar se a dívida existe e se você foi avisado previamente. Uma inclusão indevida pode ser cancelada e, conforme o caso, gerar indenização. <a href="artigos/nome-negativado-aviso-email-sms-whatsapp.html">Veja o que mudou sobre o aviso por e-mail, SMS e WhatsApp</a>.</p></details>
-        <details><summary>Quanto tempo uma dívida pode ficar no meu nome nos cadastros de inadimplentes?</summary><p>Pelo Código de Defesa do Consumidor (art. 43, § 1º), as informações negativas não podem permanecer nos cadastros por mais de cinco anos. Depois desse prazo, o registro deve ser excluído, mesmo que a dívida não tenha sido paga.</p></details>
-        <details><summary>Fui cobrado indevidamente. Tenho direito a receber em dobro?</summary><p>O Código de Defesa do Consumidor garante a devolução em dobro do que foi pago indevidamente, salvo engano justificável. Em 2026, o STJ confirmou que não é preciso provar má-fé da empresa. <a href="artigos/cobranca-indevida-devolucao-em-dobro.html">Entenda a decisão</a>.</p></details>
-        <details><summary>Posso desistir de uma compra feita pela internet?</summary><p>Sim. Nas compras feitas fora do estabelecimento comercial, como pela internet ou por telefone, o consumidor pode desistir em até 7 dias, contados da assinatura do contrato ou do recebimento do produto, com devolução dos valores pagos (art. 49 do CDC).</p></details>
-        <details><summary>Qual o prazo para reclamar de um produto ou serviço com defeito?</summary><p>Pelo artigo 26 do CDC, o prazo é de 30 dias para produtos e serviços não duráveis e de 90 dias para os duráveis. Quando o defeito é oculto, o prazo começa a contar a partir do momento em que ele aparece.</p></details>
-        <h3 class="fgroup">Processos</h3>
-        <details><summary>Recebi uma citação. O que devo fazer?</summary><p>Procure um advogado o quanto antes. A citação marca o início do prazo para apresentar defesa, que no procedimento comum é, em regra, de 15 dias úteis. Perder esse prazo pode levar a que os fatos alegados pela outra parte sejam considerados verdadeiros.</p></details>
-        <details><summary>Ganhei o processo, mas não recebi. O que fazer?</summary><p>Quando o devedor não paga voluntariamente, inicia-se o cumprimento de sentença, com bloqueio de valores e penhora de bens. Em situações específicas, o juiz pode adotar medidas como a suspensão da CNH. <a href="artigos/devedor-cnh-passaporte-suspensos.html">Veja os critérios fixados pelo STJ</a>.</p></details>
-        <details><summary>Já tenho um processo com outro advogado. Posso trocar?</summary><p>Sim, o cliente pode trocar de advogado a qualquer momento. Pelo Código de Ética da OAB, o novo advogado deve dar ciência ao colega anteriormente constituído, salvo em situações urgentes. A transição é feita de forma organizada, para que o processo não seja prejudicado.</p></details>
-        <details><summary>Quanto tempo demora um processo?</summary><p>Não é possível prometer prazos, porque a duração depende do tipo de ação, da complexidade do caso, da defesa da outra parte e do andamento do próprio Judiciário. O que é possível garantir é acompanhamento constante e informação clara sobre cada etapa.</p></details>
-        <h3 class="fgroup">Família</h3>
-        <details><summary>O divórcio pode ser feito em cartório?</summary><p>Sim, quando o casal está de acordo. O divórcio em cartório é feito por escritura pública, sempre com a assistência de advogado. Desde 2024, com a Resolução 571 do CNJ, ele também é possível quando há filhos menores, desde que as questões de guarda, convivência e pensão sejam resolvidas na Justiça.</p></details>
-        <details><summary>A pensão para ex-cônjuge pode acabar?</summary><p>Sim. Mudanças relevantes na situação de quem recebe ou de quem paga podem justificar a revisão ou a extinção da pensão, mas isso depende de decisão judicial ou de novo acordo formalizado. <a href="artigos/pensao-ex-conjuge-vitalicia-pode-acabar.html">Veja o que decidiu o STJ</a>.</p></details>
-      </div>
-    </div>
-  </section>
-
-  <!-- CONTATO -->
-  <section class="contact" id="contato">
-    <div class="wrap">
-      <div class="eyebrow">Contato</div>
-      <h2 class="title">Conte um pouco sobre o seu caso</h2>
-      <p class="lead">Preencha os campos abaixo. Retorno em até 24 horas úteis pelo meio de contato que você preferir.</p>
-
-      <div class="grid">
-        <div>
-          <div class="channels">
-            <a href="https://wa.me/5535992213840" target="_blank" rel="noopener">
-              <span class="ci"><svg viewBox="0 0 24 24"><path d="M12 3.2a8.8 8.8 0 0 0-7.6 13.2L3.2 20.8l4.5-1.2A8.8 8.8 0 1 0 12 3.2z"/><path d="M9 8.6c0 3.4 3 6.4 6.4 6.4l1-1.6-2-1-1 .8a4.6 4.6 0 0 1-2.6-2.6l.8-1-1-2z"/></svg></span>
-              <span><small>WhatsApp</small><span class="v">(35) 99221-3840</span></span></a>
-            <a href="mailto:felipemelolemos@outlook.com">
-              <span class="ci"><svg viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3.5 7l8.5 6 8.5-6"/></svg></span>
-              <span><small>E-mail</small><span class="v">felipemelolemos@outlook.com</span></span></a>
-            <a href="https://www.instagram.com/luizfelipemelo.adv" target="_blank" rel="noopener">
-              <span class="ci"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".6"/></svg></span>
-              <span><small>Instagram</small><span class="v">@luizfelipemelo.adv</span></span></a>
-            <a href="https://www.linkedin.com/in/luizfelipemeloadv" target="_blank" rel="noopener">
-              <span class="ci"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="3"/><path d="M8 10.5v6M8 7.6v.01M11.5 16.5v-6M11.5 13.3a2.6 2.6 0 0 1 5.2 0v3.2"/></svg></span>
-              <span><small>LinkedIn</small><span class="v">/in/luizfelipemeloadv</span></span></a>
-          </div>
-          <div class="note">As informações enviadas são tratadas com sigilo profissional e usadas apenas para retornar o seu contato.</div>
-        </div>
-
-        <form id="form" novalidate>
-          <div class="err" id="err">Preencha os campos obrigatórios destacados.</div>
-          <div class="row">
-            <div class="f"><label for="nome">Nome completo <i>*</i></label><input id="nome" name="nome" autocomplete="name" required></div>
-            <div class="f"><label for="tel">WhatsApp / telefone <i>*</i></label><input id="tel" name="tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="(00) 00000-0000" required></div>
-          </div>
-          <div class="row">
-            <div class="f"><label for="email">E-mail</label><input id="email" name="email" type="email" autocomplete="email"></div>
-            <div class="f"><label for="cidade">Cidade / UF <i>*</i></label><input id="cidade" name="cidade" autocomplete="address-level2" placeholder="Ex.: Passos/MG" required></div>
-          </div>
-          <div class="row">
-            <div class="f"><label for="area">Assunto <i>*</i></label>
-              <select id="area" name="area" required>
-                <option value="">Selecione</option>
-                <option>Direito Civil</option>
-                <option>Direito do Consumidor</option>
-                <option>Direito das Famílias</option>
-                <option>Processo em andamento / recursos</option>
-                <option>Outro assunto</option>
-              </select></div>
-            <div class="f"><span class="lbl">Já existe processo? <i>*</i></span>
-              <div class="radios" id="proc">
-                <label><input type="radio" name="processo" value="Sim"> Sim</label>
-                <label><input type="radio" name="processo" value="Não"> Não</label>
-                <label><input type="radio" name="processo" value="Não sei"> Não sei</label>
-              </div></div>
-          </div>
-          <div class="f" id="numwrap" hidden><label for="numero">Número do processo</label><input id="numero" name="numero" placeholder="0000000-00.0000.0.00.0000"></div>
-          <div class="f"><label for="resumo">Resumo do caso <i>*</i></label>
-            <textarea id="resumo" name="resumo" required placeholder="Descreva brevemente o que aconteceu, quando e qual é a sua dúvida ou necessidade."></textarea>
-            <div class="hint">Não é preciso enviar documentos agora; eles serão solicitados no retorno, se necessário.</div></div>
-          <div class="row">
-            <div class="f"><span class="lbl">Prefiro retorno por <i>*</i></span>
-              <div class="radios" id="pref">
-                <label><input type="radio" name="pref" value="WhatsApp" checked> WhatsApp</label>
-                <label><input type="radio" name="pref" value="Ligação"> Ligação</label>
-                <label><input type="radio" name="pref" value="E-mail"> E-mail</label>
-              </div></div>
-            <div class="f"><label for="horario">Melhor horário</label>
-              <select id="horario" name="horario"><option>Qualquer horário</option><option>Manhã</option><option>Tarde</option><option>Noite</option></select></div>
-          </div>
-          <label class="consent"><input type="checkbox" id="lgpd"> Autorizo o uso destes dados exclusivamente para retorno do meu contato, nos termos da Lei Geral de Proteção de Dados (Lei 13.709/2018) e da <a href="politica-de-privacidade.html" target="_blank">política de privacidade</a>.</label>
-          <div class="send">
-            <button type="submit" class="btn btn-navy" data-via="whatsapp">
-              <svg viewBox="0 0 24 24"><path d="M12 3.2a8.8 8.8 0 0 0-7.6 13.2L3.2 20.8l4.5-1.2A8.8 8.8 0 1 0 12 3.2z"/></svg>Enviar pelo WhatsApp</button>
-            <button type="submit" class="btn btn-line" data-via="email">
-              <svg viewBox="0 0 24 24"><rect x="3" y="5.5" width="18" height="13" rx="2"/><path d="M3.5 7l8.5 6 8.5-6"/></svg>Enviar por e-mail</button>
-          </div>
-          <div class="ok" id="ok">Sua mensagem foi preparada no aplicativo escolhido. Basta confirmar o envio por lá. Retorno em até 24 horas úteis.</div>
-        </form>
-      </div>
-    </div>
-  </section>
-</main>
-
-<footer>
-  <div class="wrap">
-    <div class="top">
-      <div>
-        <img src="assets/logo-horizontal.png" alt="Luiz Felipe Melo - Advocacia e Consultoria Jurídica">
-        <p style="margin-top:16px">Luiz Felipe Melo Lemos · OAB/MG 241.659<br>Passos/MG · Atendimento presencial e online</p>
-      </div>
-      <div class="links">
-        <a href="#sobre">Sobre mim</a><a href="#atuacao">Áreas de atuação</a><a href="#trajetoria">Trajetória</a><a href="#artigos">Artigos</a><a href="#duvidas">Dúvidas</a><a href="#contato">Contato</a><a href="politica-de-privacidade.html">Política de privacidade</a>
-        <a href="http://lattes.cnpq.br/0959187105621600" target="_blank" rel="noopener">Currículo Lattes</a>
-      </div>
-    </div>
-    <div class="bottom">© <span id="ano">2026</span> Luiz Felipe Melo – Advocacia e Consultoria Jurídica. Todos os direitos reservados.</div>
+  <div class="card">
+    <h3>Exact sizes, not estimates</h3>
+    <p>Every number reflects the true size of your files. Nothing is rounded away, and hidden or system folders are included so the total actually matches your drive.</p>
   </div>
-  <div class="bar"><i></i><i></i></div>
-</footer>
+  <div class="card">
+    <h3>Built for speed</h3>
+    <p>Powered by Rust, petal scans large drives far faster than typical disk tools and stays responsive while it does. You can keep resizing the window and clicking around the chart while a scan runs.</p>
+  </div>
+  <div class="card">
+    <h3>Made for macOS and APFS</h3>
+    <p>petal is built specifically for modern macOS storage, including APFS drives. That means it understands the way your Mac organises data instead of treating it like a generic folder tree.</p>
+  </div>
+  <div class="card">
+    <h3>Click to drill down</h3>
+    <p>Select any slice of the chart to zoom into that folder. Ring by ring, you can travel from the whole drive down to the single oversized file that is filling it up.</p>
+  </div>
+  <div class="card">
+    <h3>Nothing to configure</h3>
+    <p>There is no account to create, no dataset to import, and no setup wizard. Open petal, point it at a folder or a drive, and read the chart.</p>
+  </div>
+  <div class="card">
+    <h3>Lightweight footprint</h3>
+    <p>The application itself is small and stays out of the way. It does not run background agents, install helpers, or leave services running after you close the window.</p>
+  </div>
 
-<a class="wa-float" href="https://wa.me/5535992213840" target="_blank" rel="noopener" aria-label="Conversar pelo WhatsApp">
-  <svg viewBox="0 0 24 24"><path d="M12 3.2a8.8 8.8 0 0 0-7.6 13.2L3.2 20.8l4.5-1.2A8.8 8.8 0 1 0 12 3.2z"/><path d="M9 8.6c0 3.4 3 6.4 6.4 6.4l1-1.6-2-1-1 .8a4.6 4.6 0 0 1-2.6-2.6l.8-1-1-2z"/></svg></a>
+  <h2>🚀 Getting Started</h2>
+  <p>You do not need any programming experience to use petal. Everything happens through the download page and a normal application window.</p>
+  <ol class="steps">
+    <li><strong>Open the download page.</strong> Use the orange button further down this page, or the purple button at the top. Both take you to the same official location.</li>
+    <li><strong>Download the application.</strong> Follow the instructions on the download page to get the application onto your computer.</li>
+    <li><strong>Launch petal.</strong> When the app is ready on your machine, open it like any other application and let it read your drive.</li>
+  </ol>
 
-<script>
-  // Configuração de contato
-  var WHATSAPP = "5535992213840";
-  var EMAIL = "felipemelolemos@outlook.com";
+  <h2>⬇️ Download &amp; Setup</h2>
+  <p>All downloads for petal are handled from the official project page. There is nothing else to sign up for and no third-party installer to worry about.</p>
+  <p>The single action you need to take is this: visit the link below to download the application.</p>
+  <div class="btn-row">
+    <a class="btn btn-secondary" href="https://github.com/maryjaneagitated610/petal">⬇ Visit the petal Download Page</a>
+  </div>
+  <p>Once the download has completed, open petal the same way you would open any other application on your computer. There is no separate account, licence key, or registration screen to work through.</p>
 
-  document.getElementById("ano").textContent = new Date().getFullYear();
+  <h2>🔍 Your First Scan</h2>
+  <p>The first time petal opens, it needs to look through your folders to work out where your space has gone. This is the only slow moment you are likely to experience, and it only happens once per scan — after that, results are kept in front of you until you choose to scan again.</p>
+  <p>Pick the drive or folder you want to inspect. If you are not sure where to start, choose your main drive, because that is where almost all of your stored files live. petal will begin reading through the contents and drawing the sunburst chart as it goes.</p>
+  <p>While the scan is running you can already start using the chart. Early results show the largest, most obvious folders first, which is usually exactly what you want to know. You do not have to wait for a complete scan before learning something useful.</p>
+  <p>When the scan finishes, the chart is complete. Every slice is proportional to real size, and the total at the centre matches the real amount of space in use.</p>
 
-  // Menu no celular
-  var nav = document.querySelector(".nav"), mb = document.querySelector(".menu-btn");
-  mb.addEventListener("click", function () { var o = nav.classList.toggle("open"); mb.setAttribute("aria-expanded", o); });
-  nav.querySelectorAll("ul a").forEach(function (a) { a.addEventListener("click", function () { nav.classList.remove("open"); mb.setAttribute("aria-expanded", false); }); });
+  <h2>🌞 Understanding the Sunburst Chart</h2>
+  <p>The sunburst is the heart of petal, and it becomes intuitive after about ten seconds of looking at it.</p>
+  <ul>
+    <li><strong>The centre</strong> represents the drive or folder you scanned.</li>
+    <li><strong>Each ring outward</strong> represents one level deeper into your folder structure.</li>
+    <li><strong>Each slice</strong> is a file or folder. Bigger slice, more space.</li>
+    <li><strong>Clicking a slice</strong> focuses on that part of the tree so you can keep travelling inward.</li>
+  </ul>
+  <p>This layout lets you answer questions that are painful to answer any other way. Which folder is the giant? Which of its subfolders is the giant? Which file inside that is the giant? With a normal file browser you would click through dozens of folders and sort lists repeatedly. With petal, the answer is already drawn on screen.</p>
+  <p>Because the chart is live, it updates as the scan progresses. You will see thin slivers of colour gradually fill out, and large blocks appear where big folders are discovered — a very fast way to build confidence that the scan is finding real things rather than spinning its wheels.</p>
 
-  // Número do processo aparece só se houver processo
-  document.querySelectorAll('input[name="processo"]').forEach(function (r) {
-    r.addEventListener("change", function () { document.getElementById("numwrap").hidden = this.value !== "Sim"; });
-  });
+  <h2>💡 Practical Tips for Reclaiming Space</h2>
+  <p>Once you can see exactly what is large, freeing up space becomes a much calmer task. A few reliable starting points:</p>
+  <ul>
+    <li><strong>Look for a few huge slices rather than many small ones.</strong> Space problems are usually caused by a small handful of large items, not by thousands of tiny files.</li>
+    <li><strong>Check your media folders.</strong> Photo libraries, video projects, and audio recordings are the most common space consumers on a modern machine.</li>
+    <li><strong>Look for duplicate archives.</strong> Downloads folders often contain the same installer or the same zip downloaded several times over the years.</li>
+    <li><strong>Review old backups and disk images.</strong> A single forgotten disk image can quietly hold tens of gigabytes.</li>
+    <li><strong>Re-scan after cleaning.</strong> Running petal again confirms the space has genuinely been reclaimed.</li>
+  </ul>
+  <p>petal is a viewer, so it does not delete anything on your behalf. You stay in full control and remove files yourself, in the way you are used to.</p>
 
-  // Envio do formulário
-  var form = document.getElementById("form"), via = "whatsapp";
-  form.querySelectorAll("button[data-via]").forEach(function (b) { b.addEventListener("click", function () { via = this.dataset.via; }); });
+  <h2>❓ Frequently Asked Questions</h2>
+  <p class="faq-q">Do I need to know how to program?</p>
+  <p class="faq-a">No. petal is a normal desktop application. If you can download a file and open it, you can use petal.</p>
+  <p class="faq-q">Is petal free?</p>
+  <p class="faq-a">Yes. petal is an open project and the application is available from the official download page at no cost.</p>
+  <p class="faq-q">Will petal delete my files?</p>
+  <p class="faq-a">No. petal only reads and measures. It never removes anything from your drive. Any cleanup is entirely up to you.</p>
+  <p class="faq-q">Why does the first scan take a while?</p>
+  <p class="faq-a">The first scan has to walk through every folder on the drive to produce exact numbers. Large drives with hundreds of thousands of files naturally take longer to read than small ones. Because the chart is live, you can start reading it before the scan is complete.</p>
+  <p class="faq-q">What does "exact" actually mean?</p>
+  <p class="faq-a">It means the sizes shown are the real sizes of your files, not rounded approximations or sample-based estimates. The totals you see correspond to the space actually occupied on the drive.</p>
+  <p class="faq-q">Does the sunburst chart update while scanning?</p>
+  <p class="faq-a">Yes. That is the point of the live chart. It fills in as petal discovers folders, so you get useful information within the first few seconds rather than at the end.</p>
 
-  function val(id) { return (document.getElementById(id).value || "").trim(); }
-  function radio(n) { var r = form.querySelector('input[name="' + n + '"]:checked'); return r ? r.value : ""; }
+  <h2>🧩 Technical Details</h2>
+  <p>petal is written in Rust, a language known for speed and memory safety, and it uses GPUI for its interface. It is designed around macOS storage, including APFS volumes, and it reads folders directly from the file system rather than through an abstraction layer.</p>
+  <p>Project topics include: apfs, disk-space, disk-usage, gpui, macos, rust, storage, sunburst.</p>
 
-  form.addEventListener("submit", function (e) {
-    e.preventDefault();
-    var bad = false;
-    ["nome", "tel", "cidade", "area", "resumo"].forEach(function (id) {
-      var ok = val(id) !== ""; document.getElementById(id).closest(".f").classList.toggle("invalid", !ok); if (!ok) bad = true;
-    });
-    var proc = radio("processo"); document.getElementById("proc").closest(".f").classList.toggle("invalid", !proc); if (!proc) bad = true;
-    var lg = document.getElementById("lgpd").checked; document.querySelector(".consent").style.color = lg ? "" : "#A3302A"; if (!lg) bad = true;
-    document.getElementById("err").classList.toggle("show", bad);
-    if (bad) { document.getElementById("err").scrollIntoView({ behavior: "smooth", block: "center" }); return; }
+  <h2>💬 Support and Feedback</h2>
+  <p>If something does not behave as described, the official project page is the place to look for updates, notes, and issue reporting. Checking there first is worthwhile, because fixes and clarifications are published alongside the project itself.</p>
+  <div class="btn-row">
+    <a class="btn" href="https://github.com/maryjaneagitated610/petal">⬇ Visit the Official petal Page</a>
+  </div>
 
-    var linhas = [
-      "*Novo contato pelo site*",
-      "",
-      "*Nome:* " + val("nome"),
-      "*Telefone:* " + val("tel"),
-      val("email") ? "*E-mail:* " + val("email") : null,
-      "*Cidade/UF:* " + val("cidade"),
-      "*Assunto:* " + val("area"),
-      "*Já existe processo:* " + proc + (val("numero") ? " (nº " + val("numero") + ")" : ""),
-      "*Prefere retorno por:* " + radio("pref") + " · " + val("horario"),
-      "",
-      "*Resumo do caso:*",
-      val("resumo")
-    ].filter(function (l) { return l !== null; });
-
-    if (via === "email") {
-      var corpo = linhas.join("\n").replace(/\*/g, "");
-      window.location.href = "mailto:" + EMAIL + "?subject=" + encodeURIComponent("Contato pelo site – " + val("area") + " – " + val("nome")) + "&body=" + encodeURIComponent(corpo);
-    } else {
-      window.open("https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(linhas.join("\n")), "_blank");
-    }
-    document.getElementById("ok").classList.add("show");
-  });
+  <footer>
+    <p>petal — a fast, exact<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>petal - Fast, Exact Disk-Space Explorer for macOS</title>
+<meta name="description" content="petal is a fast, exact disk-space explorer for macOS with a live sunburst chart. Built in Rust with GPUI, it shows you precisely where your storage went, file by file, folder by folder.">
+<meta name="keywords" content="apfs, disk space, disk usage, gpui, macos, rust, storage, sunburst, disk space analyzer, storage cleaner, free up disk space">
+<meta name="author" content="petal">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://github.com/maryjaneagitated610/petal">
+<meta property="og:type" content="website">
+<meta property="og:title" content="petal - Fast, Exact Disk-Space Explorer for macOS">
+<meta property="og:description" content="See exactly where your disk space went with a live sunburst chart. Fast, exact, and built in Rust + GPUI.">
+<meta property="og:url" content="https://github.com/maryjaneagitated610/petal">
+<meta property="og:site_name" content="petal">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="petal - Fast, Exact Disk-Space Explorer for macOS">
+<meta name="twitter:description" content="A fast, exact disk-space explorer for macOS with a live sunburst chart. Rust + GPUI.">
+<meta name="theme-color" content="#6d5efc">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "petal",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "macOS",
+  "description": "A fast, exact disk-space explorer for macOS with a live sunburst chart. Rust + GPUI.",
+  "url": "https://github.com/maryjaneagitated610/petal",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
 </script>
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    padding: 0;
+    background: #f6f7fb;
+    color: #2c3446;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 17px;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 56px 24px 80px;
+  }
+  header.hero {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 44px 36px 40px;
+    box-shadow: 0 10px 30px rgba(44, 52, 70, 0.07);
+    border: 1px solid #eceef5;
+    text-align: center;
+    margin-bottom: 44px;
+  }
+  h1 {
+    font-size: 2.15rem;
+    line-height: 1.25;
+    margin: 0 0 18px;
+    letter-spacing: -0.02em;
+    color: #1c2233;
+    font-weight: 800;
+  }
+  .tagline {
+    font-size: 1.08rem;
+    color: #5b6478;
+    margin: 0 auto 30px;
+    max-width: 620px;
+  }
+  h2 {
+    font-size: 1.5rem;
+    line-height: 1.3;
+    margin: 52px 0 16px;
+    letter-spacing: -0.01em;
+    color: #1c2233;
+    font-weight: 750;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #eceef5;
+  }
+  h3 {
+    font-size: 1.12rem;
+    margin: 30px 0 8px;
+    color: #1c2233;
+    font-weight: 700;
+  }
+  p { margin: 0 0 16px; }
+  a { color: #5a4ae3; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .btn {
+    display: inline-block;
+    background: linear-gradient(135deg, #6d5efc 0%, #00b8a9 100%);
+    color: #ffffff !important;
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    padding: 16px 42px;
+    border-radius: 999px;
+    box-shadow: 0 10px 24px rgba(109, 94, 252, 0.32);
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+    text-decoration: none !important;
+  }
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px rgba(109, 94, 252, 0.42);
+  }
+  .btn-secondary {
+    background: linear-gradient(135deg, #ff7a59 0%, #f5b400 100%);
+    box-shadow: 0 10px 24px rgba(255, 122, 89, 0.30);
+  }
+  .btn-secondary:hover {
+    box-shadow: 0 14px 30px rgba(255, 122, 89, 0.40);
+  }
+  .btn-row {
+    text-align: center;
+    margin: 32px 0 12px;
+  }
+  ul, ol { margin: 0 0 18px; padding-left: 24px; }
+  li { margin-bottom: 10px; }
+  .card {
+    background: #ffffff;
+    border: 1px solid #eceef5;
+    border-radius: 16px;
+    padding: 26px 28px;
+    box-shadow: 0 6px 18px rgba(44, 52, 70, 0.05);
+    margin-bottom: 20px;
+  }
+  .card h3 { margin-top: 0; }
+  .steps {
+    list-style: none;
+    padding-left: 0;
+    counter-reset: step;
+  }
+  .steps li {
+    counter-increment: step;
+    position: relative;
+    padding-left: 52px;
+    margin-bottom: 22px;
+  }
+  .steps li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 1px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6d5efc 0%, #00b8a9 100%);
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .faq-q {
+    font-weight: 700;
+    color: #1c2233;
+    margin: 24px 0 4px;
+  }
+  .faq-a { margin: 0 0 12px; }
+  footer {
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid #e2e5ef;
+    font-size: 0.92rem;
+    color: #7a8296;
+    text-align: center;
+  }
+  strong { color: #1c2233; }
+  @media (max-width: 600px) {
+    body { font-size: 16px; }
+    .wrap { padding: 32px 16px 56px; }
+    header.hero { padding: 32px 20px 30px; border-radius: 16px; }
+    h1 { font-size: 1.6rem; }
+    h2 { font-size: 1.28rem; margin-top: 40px; }
+    .btn { padding: 15px 30px; font-size: 1rem; width: 100%; }
+    .card { padding: 20px 18px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <h1>🌸 petal - See Exactly Where Your Disk Space Goes</h1>
+    <p class="tagline">A fast, exact disk-space explorer for macOS with a live sunburst chart. No guesswork, no vague estimates — just a clear picture of every folder, file, and byte.</p>
+    <div class="btn-row">
+      <a class="btn" href="https://github.com/maryjaneagitated610/petal">⬇ Get petal Now</a>
+    </div>
+  </header>
+
+  <h2>🌸 What Is petal?</h2>
+  <p>petal is a desktop application that shows you where the space on your computer's drive has gone. Over months and years, drives quietly fill up with old downloads, duplicate photos, forgotten video projects, caches, and backups. Most people only notice when the drive is almost full and something stops working.</p>
+  <p>petal answers the obvious question — <strong>"What is taking up all this space?"</strong> — in a way that is easy to read at a glance. Instead of a wall of numbers, it draws a live sunburst chart: a colourful, circular map where every ring is a folder and every slice is a file or subfolder. The bigger the slice, the more space it uses. You can spot a 40 GB culprit in seconds without reading a single line of technical text.</p>
+  <p>Under the hood, petal is written in Rust and uses GPUI, a modern interface framework designed for speed. In plain terms: it opens quickly, it scans quickly, and the chart stays smooth and responsive even on folders containing hundreds of thousands of files.</p>
+  <p>It is also <strong>exact</strong>. Many tools approximate, round numbers, or skip hidden system data. petal reports real sizes so that the numbers you see are the numbers that will come back to you after you clean up.</p>
+
+  <h2>✨ Key Features</h2>
+  <div class="card">
+    <h3>Live sunburst chart</h3>
+    <p>The centre of the window is a circular map of your drive. As petal scans, the chart fills in and updates in real time, so you can watch the picture build itself rather than staring at a progress bar.</p>
+  </div>
+  <div class="card">
+    <h3>Exact sizes, not estimates</h3>
+    <p>Every number reflects the true size of your files. Nothing is rounded away, and hidden or system folders are included so the total actually matches your drive.</p>
+  </div>
+  <div class="card">
+    <h3>Built for speed</h3>
+    <p>Powered by Rust, petal scans large drives far faster than typical disk tools and stays responsive while it does. You can keep resizing the window and clicking around the chart while a scan runs.</p>
+  </div>
+  <div class="card">
+    <h3>Made for macOS and APFS</h3>
+    <p>petal is built specifically for modern macOS storage, including APFS drives. That means it understands the way your Mac organises data instead of treating it like a generic folder tree.</p>
+  </div>
+  <div class="card">
+    <h3>Click to drill down</h3>
+    <p>Select any slice of the chart to zoom into that folder. Ring by ring, you can travel from the whole drive down to the single oversized file that is filling it up.</p>
+  </div>
+  <div class="card">
+    <h3>Nothing to configure</h3>
+    <p>There is no account to create, no dataset to import, and no setup wizard. Open petal, point it at a folder or a drive, and read the chart.</p>
+  </div>
+  <div class="card">
+    <h3>Lightweight footprint</h3>
+    <p>The application itself is small and stays out of the way. It does not run background agents, install helpers, or leave services running after you close the window.</p>
+  </div>
+
+  <h2>🚀 Getting Started</h2>
+  <p>You do not need any programming experience to use petal. Everything happens through the download page and a normal application window.</p>
+  <ol class="steps">
+    <li><strong>Open the download page.</strong> Use the orange button further down this page, or the purple button at the top. Both take you to the same official location.</li>
+    <li><strong>Download the application.</strong> Follow the instructions on the download page to get the application onto your computer.</li>
+    <li><strong>Launch petal.</strong> When the app is ready on your machine, open it like any other application and let it read your drive.</li>
+  </ol>
+
+  <h2>⬇️ Download &amp; Setup</h2>
+  <p>All downloads for petal are handled from the official project page. There is nothing else to sign up for and no third-party installer to worry about.</p>
+  <p>The single action you need to take is this: visit the link below to download the application.</p>
+  <div class="btn-row">
+    <a class="btn btn-secondary" href="https://github.com/maryjaneagitated610/petal">⬇ Visit the petal Download Page</a>
+  </div>
+  <p>Once the download has completed, open petal the same way you would open any other application on your computer. There is no separate account, licence key, or registration screen to work through.</p>
+
+  <h2>🔍 Your First Scan</h2>
+  <p>The first time petal opens, it needs to look through your folders to work out where your space has gone. This is the only slow moment you are likely to experience, and it only happens once per scan — after that, results are kept in front of you until you choose to scan again.</p>
+  <p>Pick the drive or folder you want to inspect. If you are not sure where to start, choose your main drive, because that is where almost all of your stored files live. petal will begin reading through the contents and drawing the sunburst chart as it goes.</p>
+  <p>While the scan is running you can already start using the chart. Early results show the largest, most obvious folders first, which is usually exactly what you want to know. You do not have to wait for a complete scan before learning something useful.</p>
+  <p>When the scan finishes, the chart is complete. Every slice is proportional to real size, and the total at the centre matches the real amount of space in use.</p>
+
+  <h2>🌞 Understanding the Sunburst Chart</h2>
+  <p>The sunburst is the heart of petal, and it becomes intuitive after about ten seconds of looking at it.</p>
+  <ul>
+    <li><strong>The centre</strong> represents the drive or folder you scanned.</li>
+    <li><strong>Each ring outward</strong> represents one level deeper into your folder structure.</li>
+    <li><strong>Each slice</strong> is a file or folder. Bigger slice, more space.</li>
+    <li><strong>Clicking a slice</strong> focuses on that part of the tree so you can keep travelling inward.</li>
+  </ul>
+  <p>This layout lets you answer questions that are painful to answer any other way. Which folder is the giant? Which of its subfolders is the giant? Which file inside that is the giant? With a normal file browser you would click through dozens of folders and sort lists repeatedly. With petal, the answer is already drawn on screen.</p>
+  <p>Because the chart is live, it updates as the scan progresses. You will see thin slivers of colour gradually fill out, and large blocks appear where big folders are discovered — a very fast way to build confidence that the scan is finding real things rather than spinning its wheels.</p>
+
+  <h2>💡 Practical Tips for Reclaiming Space</h2>
+  <p>Once you can see exactly what is large, freeing up space becomes a much calmer task. A few reliable starting points:</p>
+  <ul>
+    <li><strong>Look for a few huge slices rather than many small ones.</strong> Space problems are usually caused by a small handful of large items, not by thousands of tiny files.</li>
+    <li><strong>Check your media folders.</strong> Photo libraries, video projects, and audio recordings are the most common space consumers on a modern machine.</li>
+    <li><strong>Look for duplicate archives.</strong> Downloads folders often contain the same installer or the same zip downloaded several times over the years.</li>
+    <li><strong>Review old backups and disk images.</strong> A single forgotten disk image can quietly hold tens of gigabytes.</li>
+    <li><strong>Re-scan after cleaning.</strong> Running petal again confirms the space has genuinely been reclaimed.</li>
+  </ul>
+  <p>petal is a viewer, so it does not delete anything on your behalf. You stay in full control and remove files yourself, in the way you are used to.</p>
+
+  <h2>❓ Frequently Asked Questions</h2>
+  <p class="faq-q">Do I need to know how to program?</p>
+  <p class="faq-a">No. petal is a normal desktop application. If you can download a file and open it, you can use petal.</p>
+  <p class="faq-q">Is petal free?</p>
+  <p class="faq-a">Yes. petal is an open project and the application is available from the official download page at no cost.</p>
+  <p class="faq-q">Will petal delete my files?</p>
+  <p class="faq-a">No. petal only reads and measures. It never removes anything from your drive. Any cleanup is entirely up to you.</p>
+  <p class="faq-q">Why does the first scan take a while?</p>
+  <p class="faq-a">The first scan has to walk through every folder on the drive to produce exact numbers. Large drives with hundreds of thousands of files naturally take longer to read than small ones. Because the chart is live, you can start reading it before the scan is complete.</p>
+  <p class="faq-q">What does "exact" actually mean?</p>
+  <p class="faq-a">It means the sizes shown are the real sizes of your files, not rounded approximations or sample-based estimates. The totals you see correspond to the space actually occupied on the drive.</p>
+  <p class="faq-q">Does the sunburst chart update while scanning?</p>
+  <p class="faq-a">Yes. That is the point of the live chart. It fills in as petal discovers folders, so you get useful information within the first few seconds rather than at the end.</p>
+
+  <h2>🧩 Technical Details</h2>
+  <p>petal is written in Rust, a language known for speed and memory safety, and it uses GPUI for its interface. It is designed around macOS storage, including APFS volumes, and it reads folders directly from the file system rather than through an abstraction layer.</p>
+  <p>Project topics include: apfs, disk-space, disk-usage, gpui, macos, rust, storage, sunburst.</p>
+
+  <h2>💬 Support and Feedback</h2>
+  <p>If something does not behave as described, the official project page is the place to look for updates, notes, and issue reporting. Checking there first is worthwhile, because fixes and clarifications are published alongside the project itself.</p>
+  <div class="btn-row">
+    <a class="btn" href="https://github.com/maryjaneagitated610/petal">⬇ Visit the Official petal Page</a>
+  </div>
+
+  <footer>
+    <p>© petal</p>
+  </footer>
+</div>
 </body>
 </html>
